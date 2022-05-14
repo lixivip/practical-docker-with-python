@@ -30,22 +30,23 @@ jobs:
         # run again to exit treating all errors as warnings 
         flake8 . --count --exit-zero --max-complexity=10 --statistics
 
-  # docker-build:
-  #   timeout-minutes: 10
-  #   runs-on: ubuntu-latest
-  #   needs: lint
+  docker-build:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    needs: lint
 
-  #   steps:
-  #   - name: Checkout
-  #     uses: actions/checkout@v1
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
     
-  #   - name: Build Docker Image
+    - name: Build Docker Image
   #     env:
   #       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   #       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-  #     run: |
-  #       cd source-code/chapter-7/exercise-2/newsbot-compose
+      run: |
+        cd source-code/chapter-7/exercise-2/newsbot-compose
+        docker build -t newsbot:${GITHUB_SHA} .
   #       docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
   #       docker build -t ${DOCKER_USERNAME}/newsbot:${GITHUB_SHA} .
   #       docker push ${DOCKER_USERNAME}/newsbot:${GITHUB_SHA}
